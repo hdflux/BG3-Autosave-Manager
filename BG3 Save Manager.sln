@@ -1,0 +1,24 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35931.197
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BG3 Autosave Manager", "BG3 Autosave Manager\BG3 Autosave Manager.csproj", "{8C6868E3-1FEA-4C3B-8B85-1C2E3D5E87F9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8C6868E3-1FEA-4C3B-8B85-1C2E3D5E87F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C6868E3-1FEA-4C3B-8B85-1C2E3D5E87F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C6868E3-1FEA-4C3B-8B85-1C2E3D5E87F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C6868E3-1FEA-4C3B-8B85-1C2E3D5E87F9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0D92CE8A-D725-4A40-9E37-D7BA6171C5F6}
+	EndGlobalSection
+EndGlobal
