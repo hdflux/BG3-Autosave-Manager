@@ -64,6 +64,9 @@ namespace BG3_Autosave_Manager
 
             CountdownLabel.Text = timeSpan.ToString(@"h\:mm\:ss");
             timerplus.Duration = duration * 60; // Set the timer duration in seconds
+
+            // Log the new duration
+            SendToLog($"Autosave interval changed to {duration} minutes.");
         }
         private void AutosavesTrackBar_Scroll(object? sender, EventArgs e)
         {
@@ -71,6 +74,16 @@ namespace BG3_Autosave_Manager
             autosaveLimit = AutosaveLimitTrackBar.Value;
             AutosaveLimitLabel.Text = autosaveLimit.ToString();
             Properties.Settings.Default.AutosaveLimit = autosaveLimit;
+        }
+        private void AutosavesTrackBar_ValueChanged(object? sender, EventArgs e)
+        {
+            // Update the label with the current value of the trackbar
+            autosaveLimit = AutosaveLimitTrackBar.Value;
+            AutosaveLimitLabel.Text = autosaveLimit.ToString();
+            Properties.Settings.Default.AutosaveLimit = autosaveLimit;
+
+            // Log the new limit
+            SendToLog($"Autosave limit changed to {autosaveLimit} files.");
         }
         private Boolean ValidateInputs()
         {
