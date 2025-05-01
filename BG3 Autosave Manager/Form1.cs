@@ -152,7 +152,7 @@ namespace BG3_Autosave_Manager
             else
             {
                 // Log that there are no files to delete
-                SendToLog($"No files to delete. Current count: {files.Count}, Limit: {fileLimit}.");
+                SendToLog($"No files to delete. Current count: {files.Count}, Limit: {autosaveLimit}.");
             }
         }
         private void CleanBackupFolder(int extraFilesToDelete = 0)
