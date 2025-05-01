@@ -253,6 +253,9 @@ namespace BG3_Autosave_Manager
                 storyId = Path.GetFileName(bg3SaveFolder);
                 BG3StoryIdLabel.Text = storyId;
                 Properties.Settings.Default.BG3StoryId = storyId;
+                
+                SendToLog($"BG3 Save Folder: {bg3SaveFolder}");
+                SendToLog($"Story ID: {storyId}");
             }
         }
         private void BackupFolderTextBox_Click(object sender, EventArgs e)
@@ -266,6 +269,8 @@ namespace BG3_Autosave_Manager
                 backupFolder = folderDialog.SelectedPath;
                 BackupFolderTextBox.Text = backupFolder;
                 Properties.Settings.Default.BackupFolder = backupFolder;
+
+                SendToLog($"Backup Folder: {backupFolder}");
             }
         }
         private void UnzipArchive(string zipFilePath, string extractFolderPath)
