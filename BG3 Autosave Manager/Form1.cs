@@ -240,7 +240,7 @@ namespace BG3_Autosave_Manager
         }
         private void BG3SaveFolderTextBox_Click(object sender, EventArgs e)
         {
-            using var folderDialog = new FolderBrowserDialog();
+            FolderBrowserDialog folderDialog = new();
             DialogResult result = folderDialog.ShowDialog();
 
             if (result == DialogResult.OK)
@@ -257,7 +257,7 @@ namespace BG3_Autosave_Manager
         }
         private void BackupFolderTextBox_Click(object sender, EventArgs e)
         {
-            using var folderDialog = new FolderBrowserDialog();
+            FolderBrowserDialog folderDialog = new();
             DialogResult result = folderDialog.ShowDialog();
 
             if (result == DialogResult.OK)
