@@ -40,12 +40,13 @@ namespace BG3_Autosave_Manager
             SendToLog($"Story ID: {storyId}");
             SendToLog($"Autosave Manager is ready.");
 
-            AutosaveIntervalTrackBar_ValueChanged(this, EventArgs.Empty);
-            AutosavesTrackBar_ValueChanged(this, EventArgs.Empty);
-
             AutosaveIntervalTrackBar.Scroll += new EventHandler(AutosaveIntervalTrackBar_Scroll);
             AutosaveIntervalTrackBar.ValueChanged += new EventHandler(AutosaveIntervalTrackBar_ValueChanged);
-            AutosaveLimitTrackBar.Scroll += new EventHandler(AutosavesTrackBar_Scroll);
+            AutosaveLimitTrackBar.Scroll += new EventHandler(AutosaveLimitTrackBar_Scroll);
+            AutosaveLimitTrackBar.ValueChanged += new EventHandler(AutosaveLimitTrackBar_ValueChanged);
+
+            AutosaveIntervalTrackBar_ValueChanged(this, EventArgs.Empty);
+            AutosaveLimitTrackBar_ValueChanged(this, EventArgs.Empty);
 
             this.FormClosing += new FormClosingEventHandler(MainForm_FormClosing);
         }
@@ -69,14 +70,14 @@ namespace BG3_Autosave_Manager
             // Log the new duration
             SendToLog($"Autosave interval changed to {duration} minutes.");
         }
-        private void AutosavesTrackBar_Scroll(object? sender, EventArgs e)
+        private void AutosaveLimitTrackBar_Scroll(object? sender, EventArgs e)
         {
             // Update the label with the current value of the trackbar
             autosaveLimit = AutosaveLimitTrackBar.Value;
             AutosaveLimitLabel.Text = autosaveLimit.ToString();
             Properties.Settings.Default.AutosaveLimit = autosaveLimit;
         }
-        private void AutosavesTrackBar_ValueChanged(object? sender, EventArgs e)
+        private void AutosaveLimitTrackBar_ValueChanged(object? sender, EventArgs e)
         {
             // Update the label with the current value of the trackbar
             autosaveLimit = AutosaveLimitTrackBar.Value;
