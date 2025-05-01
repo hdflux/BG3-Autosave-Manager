@@ -41,6 +41,7 @@ namespace BG3_Autosave_Manager
             SendToLog($"Autosave Manager is ready.");
 
             AutosaveIntervalTrackBar_ValueChanged(this, EventArgs.Empty);
+            AutosavesTrackBar_ValueChanged(this, EventArgs.Empty);
 
             AutosaveIntervalTrackBar.Scroll += new EventHandler(AutosaveIntervalTrackBar_Scroll);
             AutosaveIntervalTrackBar.ValueChanged += new EventHandler(AutosaveIntervalTrackBar_ValueChanged);
