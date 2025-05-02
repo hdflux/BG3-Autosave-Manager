@@ -104,8 +104,8 @@ namespace BG3_Autosave_Manager
             if (!ValidateInputs()) return; // Validate inputs before proceeding
 
             // Disable the enable button and enable the disable button  
-            EnableButton.Enabled = false;
-            DisableButton.Enabled = true;
+            AutosaveEnableButton.Enabled = false;
+            AutosaveDisableButton.Enabled = true;
 
             CleanBackupFolder(); // Call the method to clean up the backup folder
 
@@ -214,7 +214,7 @@ namespace BG3_Autosave_Manager
             var files = new DirectoryInfo(bg3SaveFolder).GetFiles()
                 .OrderBy(f => f.CreationTime)
                 .ToList();
-            
+
             if (files.Count > 0)
             {
                 // Check if the backup folder exists and create it if it doesn't.
@@ -229,8 +229,8 @@ namespace BG3_Autosave_Manager
         private void DisableButton_Click(object sender, EventArgs e)
         {
             // Disable the disable button and enable the enable button  
-            DisableButton.Enabled = false;
-            EnableButton.Enabled = true;
+            AutosaveDisableButton.Enabled = false;
+            AutosaveEnableButton.Enabled = true;
 
             timerplus.Stop();
         }
@@ -262,7 +262,7 @@ namespace BG3_Autosave_Manager
                 storyId = Path.GetFileName(bg3SaveFolder);
                 BG3StoryIdLabel.Text = storyId;
                 Properties.Settings.Default.BG3StoryId = storyId;
-                
+
                 SendToLog($"BG3 Save Folder: {bg3SaveFolder}");
                 SendToLog($"Story ID: {storyId}");
             }
