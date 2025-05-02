@@ -45,9 +45,6 @@ namespace BG3_Autosave_Manager
             AutosaveLimitTrackBar.Scroll += new EventHandler(AutosaveLimitTrackBar_Scroll);
             AutosaveLimitTrackBar.ValueChanged += new EventHandler(AutosaveLimitTrackBar_ValueChanged);
 
-            AutosaveIntervalTrackBar_ValueChanged(this, EventArgs.Empty);
-            AutosaveLimitTrackBar_ValueChanged(this, EventArgs.Empty);
-
             this.FormClosing += new FormClosingEventHandler(MainForm_FormClosing);
         }
         private void AutosaveIntervalTrackBar_Scroll(object? sender, EventArgs e)
