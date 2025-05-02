@@ -33,11 +33,11 @@ namespace BG3_Autosave_Manager
             AutosaveLimitLabel.Text = autosaveLimit.ToString();
 
             SendToLog($"Autosave Manager started.");
+            SendToLog($"Autosave folder: {bg3SaveFolder}");
+            SendToLog($"Story ID: {storyId}");
+            SendToLog($"Backup folder: {backupFolder}");
             SendToLog($"Autosave interval set to {autosaveInterval} minutes.");
             SendToLog($"Autosave limit set to {autosaveLimit} files.");
-            SendToLog($"Autosave folder: {bg3SaveFolder}");
-            SendToLog($"Backup folder: {backupFolder}");
-            SendToLog($"Story ID: {storyId}");
             SendToLog($"Autosave Manager is ready.");
 
             AutosaveIntervalTrackBar.Scroll += new EventHandler(AutosaveIntervalTrackBar_Scroll);
@@ -113,6 +113,8 @@ namespace BG3_Autosave_Manager
             CleanBackupFolder(); // Call the method to clean up the backup folder
 
             timerplus.Start();
+
+            SendToLog($"Autosave timer started.");
         }
         private void FolderExists(string folderPath)
         {
@@ -122,7 +124,7 @@ namespace BG3_Autosave_Manager
                 try
                 {
                     System.IO.Directory.CreateDirectory(folderPath);
-                    SendToLog($"Created backup folder: {folderPath}");
+                    SendToLog($"Created backup folder.");
                 }
                 catch (Exception ex)
                 {
@@ -160,7 +162,6 @@ namespace BG3_Autosave_Manager
             string backupStoryFolder = System.IO.Path.Combine(backupFolder, storyId);
 
             // Check if the backup folder exists and create it if it doesn't
-            SendToLog($"Backup Story Folder: {backupStoryFolder}");
             FolderExists(backupStoryFolder);
 
             // Get the list of files in the backup folder
@@ -168,7 +169,7 @@ namespace BG3_Autosave_Manager
                 .OrderBy(f => f.CreationTime)
                 .ToList();
             // Log the number of files found
-            SendToLog($"{backupStoryFolder} contains {files.Count} autosave backups.");
+            SendToLog($"Backup folder contains {files.Count} saves.");
 
             // Check if the number of files exceeds the limit
             DeleteExcessFilesInFolder(files, autosaveLimit - extraFilesToDelete);
@@ -212,15 +213,11 @@ namespace BG3_Autosave_Manager
             string fileName = "autosave_" + formattedDateTime + ".zip";
             string zipPath = System.IO.Path.Combine(backupFolder, storyId, fileName);
 
-            SendToLog($"{fileName} will be created in: {zipPath}");
-
             // Simplified collection initialization in CleanBackupFolder
             var files = new DirectoryInfo(bg3SaveFolder).GetFiles()
                 .OrderBy(f => f.CreationTime)
                 .ToList();
-            // Log the number of files found
-            SendToLog($"{bg3SaveFolder} contains {files.Count} files.");
-
+            
             if (files.Count > 0)
             {
                 // Check if the backup folder exists and create it if it doesn't.
@@ -229,7 +226,7 @@ namespace BG3_Autosave_Manager
 
                 // Create a zip file from the files in the autosave folder
                 CreateZipFromFiles(files, zipPath);
-                SendToLog($"Created zip file: {zipPath}");
+                SendToLog($"Backup created.");
             }
         }
         private void DisableButton_Click(object sender, EventArgs e)
@@ -296,12 +293,11 @@ namespace BG3_Autosave_Manager
                 if (!Directory.Exists(extractFolderPath))
                 {
                     Directory.CreateDirectory(extractFolderPath);
-                    SendToLog($"Created extraction folder: {extractFolderPath}");
                 }
 
                 // Extract the contents of the zip file
                 ZipFile.ExtractToDirectory(zipFilePath, extractFolderPath, overwriteFiles: true);
-                SendToLog($"Successfully extracted archive: {zipFilePath} to {extractFolderPath}");
+                SendToLog($"Successfully extracted archive.");
             }
             catch (Exception ex)
             {
@@ -375,13 +371,16 @@ namespace BG3_Autosave_Manager
                             string selectedFilePath = Path.Combine(backupStoryFolder, selectedFile);
 
                             // Load the selected autosave file
-                            SendToLog($"Loading autosave file: {selectedFilePath}");
                             UnzipArchive(selectedFilePath, bg3SaveFolder);
-                            SendToLog($"Autosave file loaded successfully.");
+                            SendToLog($"Autosave restored.");
 
                             zipPanel.Visible = false;
                             zipPanel.Dispose();
-                            EnableButton_Click(sender, e); // Re-enable the timer
+
+                            if (timerplus.IsRunning)
+                            {
+                                EnableButton_Click(sender, e); // Re-enable the timer
+                            }
                         }
                     }
                 };
@@ -399,7 +398,7 @@ namespace BG3_Autosave_Manager
             }
             else
             {
-                MessageBox.Show("No backup files found.");
+                MessageBox.Show("No backups found.");
             }
         }
         private void SendToLog(string message)
