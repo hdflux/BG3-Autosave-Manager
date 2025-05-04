@@ -3,6 +3,7 @@
     public int Duration;
     public int RemainingTime;
     public Boolean IsRunning = false;
+    public Boolean ResumePlaying = false;
     public event EventHandler? TimerStarted;
     public event EventHandler? TimerStopped;
     public TimerPlus(int interval, int duration)

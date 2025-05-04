@@ -54,17 +54,17 @@
             AutosaveTabPage = new TabPage();
             AutosaveDeleteButton = new Button();
             QuicksaveTabPage = new TabPage();
+            label2 = new Label();
+            QuickLimitTrackBar = new TrackBar();
+            QuickLimitLabel = new Label();
             QuickLoadButton = new Button();
             QuickDeleteButton = new Button();
-            label2 = new Label();
-            QuicksaveLimitTrackBar = new TrackBar();
-            QuicksaveLimitLabel = new Label();
             ((System.ComponentModel.ISupportInitialize)AutosaveLimitTrackBar).BeginInit();
             ((System.ComponentModel.ISupportInitialize)AutosaveIntervalTrackBar).BeginInit();
             SaveTabControl.SuspendLayout();
             AutosaveTabPage.SuspendLayout();
             QuicksaveTabPage.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)QuicksaveLimitTrackBar).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)QuickLimitTrackBar).BeginInit();
             SuspendLayout();
             // 
             // AutosaveEnableButton
@@ -76,7 +76,7 @@
             AutosaveEnableButton.TabIndex = 0;
             AutosaveEnableButton.Text = "Enable";
             AutosaveEnableButton.UseVisualStyleBackColor = true;
-            AutosaveEnableButton.Click += EnableButton_Click;
+            AutosaveEnableButton.Click += AutosaveEnableButton_Click;
             // 
             // AutosaveDisableButton
             // 
@@ -88,7 +88,7 @@
             AutosaveDisableButton.TabIndex = 1;
             AutosaveDisableButton.Text = "Disable";
             AutosaveDisableButton.UseVisualStyleBackColor = true;
-            AutosaveDisableButton.Click += DisableButton_Click;
+            AutosaveDisableButton.Click += AutosaveDisableButton_Click;
             // 
             // LogTextBox
             // 
@@ -134,7 +134,7 @@
             AutosaveLimitTrackBar.Name = "AutosaveLimitTrackBar";
             AutosaveLimitTrackBar.Size = new Size(556, 45);
             AutosaveLimitTrackBar.TabIndex = 5;
-            AutosaveLimitTrackBar.Value = 5;
+            AutosaveLimitTrackBar.Value = 20;
             // 
             // AutosaveLimitLabel
             // 
@@ -224,7 +224,7 @@
             AutosaveIntervalLabel.Name = "AutosaveIntervalLabel";
             AutosaveIntervalLabel.Size = new Size(71, 17);
             AutosaveIntervalLabel.TabIndex = 20;
-            AutosaveIntervalLabel.Text = "10 minutes";
+            AutosaveIntervalLabel.Text = "15 minutes";
             AutosaveIntervalLabel.TextAlign = ContentAlignment.TopCenter;
             // 
             // AutosaveIntervalTrackBar
@@ -237,7 +237,7 @@
             AutosaveIntervalTrackBar.Name = "AutosaveIntervalTrackBar";
             AutosaveIntervalTrackBar.Size = new Size(556, 45);
             AutosaveIntervalTrackBar.TabIndex = 19;
-            AutosaveIntervalTrackBar.Value = 10;
+            AutosaveIntervalTrackBar.Value = 15;
             // 
             // BG3StoryIdLabel
             // 
@@ -275,7 +275,7 @@
             label9.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label9.AutoSize = true;
             label9.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label9.Location = new Point(362, 3);
+            label9.Location = new Point(351, 3);
             label9.Name = "label9";
             label9.Size = new Size(161, 17);
             label9.TabIndex = 26;
@@ -285,11 +285,12 @@
             // 
             CountdownLabel.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             CountdownLabel.AutoSize = true;
-            CountdownLabel.Location = new Point(524, 3);
+            CountdownLabel.Location = new Point(513, 3);
             CountdownLabel.Name = "CountdownLabel";
-            CountdownLabel.Size = new Size(39, 17);
+            CountdownLabel.Size = new Size(49, 17);
             CountdownLabel.TabIndex = 27;
-            CountdownLabel.Text = "10:00";
+            CountdownLabel.Text = "0:15:00";
+            CountdownLabel.TextAlign = ContentAlignment.TopRight;
             // 
             // QuickSaveButton
             // 
@@ -300,7 +301,7 @@
             QuickSaveButton.TabIndex = 28;
             QuickSaveButton.Text = "Save";
             QuickSaveButton.UseVisualStyleBackColor = true;
-            QuickSaveButton.Click += BackupNowButton_Click;
+            QuickSaveButton.Click += QuickSaveButton_Click;
             // 
             // SaveTabControl
             // 
@@ -344,12 +345,13 @@
             AutosaveDeleteButton.TabIndex = 19;
             AutosaveDeleteButton.Text = "Delete";
             AutosaveDeleteButton.UseVisualStyleBackColor = true;
+            AutosaveDeleteButton.Click += AutosaveDeleteButton_Click;
             // 
             // QuicksaveTabPage
             // 
             QuicksaveTabPage.Controls.Add(label2);
-            QuicksaveTabPage.Controls.Add(QuicksaveLimitTrackBar);
-            QuicksaveTabPage.Controls.Add(QuicksaveLimitLabel);
+            QuicksaveTabPage.Controls.Add(QuickLimitTrackBar);
+            QuicksaveTabPage.Controls.Add(QuickLimitLabel);
             QuicksaveTabPage.Controls.Add(QuickLoadButton);
             QuicksaveTabPage.Controls.Add(QuickDeleteButton);
             QuicksaveTabPage.Controls.Add(QuickSaveButton);
@@ -361,28 +363,6 @@
             QuicksaveTabPage.Text = "Quicksave";
             QuicksaveTabPage.UseVisualStyleBackColor = true;
             // 
-            // QuickLoadButton
-            // 
-            QuickLoadButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            QuickLoadButton.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            QuickLoadButton.Location = new Point(313, 145);
-            QuickLoadButton.Name = "QuickLoadButton";
-            QuickLoadButton.Size = new Size(122, 32);
-            QuickLoadButton.TabIndex = 30;
-            QuickLoadButton.Text = "Load";
-            QuickLoadButton.UseVisualStyleBackColor = true;
-            // 
-            // QuickDeleteButton
-            // 
-            QuickDeleteButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            QuickDeleteButton.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            QuickDeleteButton.Location = new Point(441, 145);
-            QuickDeleteButton.Name = "QuickDeleteButton";
-            QuickDeleteButton.Size = new Size(122, 32);
-            QuickDeleteButton.TabIndex = 29;
-            QuickDeleteButton.Text = "Delete";
-            QuickDeleteButton.UseVisualStyleBackColor = true;
-            // 
             // label2
             // 
             label2.AutoSize = true;
@@ -393,30 +373,54 @@
             label2.TabIndex = 33;
             label2.Text = "Number of Quicksaves:";
             // 
-            // QuicksaveLimitTrackBar
+            // QuickLimitTrackBar
             // 
-            QuicksaveLimitTrackBar.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            QuicksaveLimitTrackBar.BackColor = SystemColors.Control;
-            QuicksaveLimitTrackBar.Location = new Point(6, 20);
-            QuicksaveLimitTrackBar.Margin = new Padding(2);
-            QuicksaveLimitTrackBar.Maximum = 50;
-            QuicksaveLimitTrackBar.Minimum = 1;
-            QuicksaveLimitTrackBar.Name = "QuicksaveLimitTrackBar";
-            QuicksaveLimitTrackBar.Size = new Size(556, 45);
-            QuicksaveLimitTrackBar.TabIndex = 31;
-            QuicksaveLimitTrackBar.Value = 5;
+            QuickLimitTrackBar.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            QuickLimitTrackBar.BackColor = SystemColors.Control;
+            QuickLimitTrackBar.Location = new Point(6, 20);
+            QuickLimitTrackBar.Margin = new Padding(2);
+            QuickLimitTrackBar.Maximum = 50;
+            QuickLimitTrackBar.Minimum = 1;
+            QuickLimitTrackBar.Name = "QuickLimitTrackBar";
+            QuickLimitTrackBar.Size = new Size(556, 45);
+            QuickLimitTrackBar.TabIndex = 31;
+            QuickLimitTrackBar.Value = 10;
             // 
-            // QuicksaveLimitLabel
+            // QuickLimitLabel
             // 
-            QuicksaveLimitLabel.AutoSize = true;
-            QuicksaveLimitLabel.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            QuicksaveLimitLabel.Location = new Point(168, 3);
-            QuicksaveLimitLabel.Margin = new Padding(2, 0, 2, 0);
-            QuicksaveLimitLabel.Name = "QuicksaveLimitLabel";
-            QuicksaveLimitLabel.Size = new Size(15, 17);
-            QuicksaveLimitLabel.TabIndex = 32;
-            QuicksaveLimitLabel.Text = "5";
-            QuicksaveLimitLabel.TextAlign = ContentAlignment.TopCenter;
+            QuickLimitLabel.AutoSize = true;
+            QuickLimitLabel.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            QuickLimitLabel.Location = new Point(168, 3);
+            QuickLimitLabel.Margin = new Padding(2, 0, 2, 0);
+            QuickLimitLabel.Name = "QuickLimitLabel";
+            QuickLimitLabel.Size = new Size(22, 17);
+            QuickLimitLabel.TabIndex = 32;
+            QuickLimitLabel.Text = "10";
+            QuickLimitLabel.TextAlign = ContentAlignment.TopCenter;
+            // 
+            // QuickLoadButton
+            // 
+            QuickLoadButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            QuickLoadButton.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            QuickLoadButton.Location = new Point(312, 145);
+            QuickLoadButton.Name = "QuickLoadButton";
+            QuickLoadButton.Size = new Size(122, 32);
+            QuickLoadButton.TabIndex = 30;
+            QuickLoadButton.Text = "Load";
+            QuickLoadButton.UseVisualStyleBackColor = true;
+            QuickLoadButton.Click += QuickLoadButton_Click;
+            // 
+            // QuickDeleteButton
+            // 
+            QuickDeleteButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            QuickDeleteButton.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            QuickDeleteButton.Location = new Point(440, 145);
+            QuickDeleteButton.Name = "QuickDeleteButton";
+            QuickDeleteButton.Size = new Size(122, 32);
+            QuickDeleteButton.TabIndex = 29;
+            QuickDeleteButton.Text = "Delete";
+            QuickDeleteButton.UseVisualStyleBackColor = true;
+            QuickDeleteButton.Click += QuickDeleteButton_Click;
             // 
             // MainForm
             // 
@@ -445,7 +449,7 @@
             AutosaveTabPage.PerformLayout();
             QuicksaveTabPage.ResumeLayout(false);
             QuicksaveTabPage.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)QuicksaveLimitTrackBar).EndInit();
+            ((System.ComponentModel.ISupportInitialize)QuickLimitTrackBar).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -481,7 +485,7 @@
         private Button QuickLoadButton;
         private Button QuickDeleteButton;
         private Label label2;
-        private TrackBar QuicksaveLimitTrackBar;
-        private Label QuicksaveLimitLabel;
+        private TrackBar QuickLimitTrackBar;
+        private Label QuickLimitLabel;
     }
 }

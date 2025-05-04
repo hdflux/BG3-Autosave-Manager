@@ -73,13 +73,25 @@ namespace BG3_Autosave_Manager.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        [global::System.Configuration.DefaultSettingValueAttribute("15")]
         public int AutosaveInterval {
             get {
                 return ((int)(this["AutosaveInterval"]));
             }
             set {
                 this["AutosaveInterval"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        public int QuickLimit {
+            get {
+                return ((int)(this["QuickLimit"]));
+            }
+            set {
+                this["QuickLimit"] = value;
             }
         }
     }

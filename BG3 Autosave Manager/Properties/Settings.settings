@@ -15,6 +15,9 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="AutosaveInterval" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">15</Value>
+    </Setting>
+    <Setting Name="QuickLimit" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">10</Value>
     </Setting>
   </Settings>
