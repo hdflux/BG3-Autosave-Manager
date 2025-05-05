@@ -464,16 +464,23 @@ namespace BG3_Autosave_Manager
             }
             listBox.SelectedIndex = files.Length - 1; // Select the first item by default.
 
-            loadButton.Click += async (s, e) =>
+            loadButton.Click += (s, e) =>
             {
                 if (listBox.SelectedItem != null)
                 {
                     string selectedItem = listBox.SelectedItem?.ToString() ?? string.Empty;
                     var filePath = Path.Combine(backupStoryFolder, selectedItem);
 
-                    // Load the selected autosave file.
-                    await Task.Run(() => UnzipArchive(filePath, bg3SaveFolder));
-                    SendToLog($"Backup restored.");
+                    try
+                    {
+                        // Load the selected autosave file.
+                        UnzipArchive(filePath, bg3SaveFolder);
+                        SendToLog($"Backup restored.");
+                    }
+                    catch (Exception ex)
+                    {
+                        SendToLog($"Error restoring backup: {ex.Message}");
+                    }
 
                     // Re-enable the timer if it was running before.
                     if (prefix == AUTOSAVE_PREFIX && timerplus.ResumePlaying)
@@ -590,7 +597,7 @@ namespace BG3_Autosave_Manager
             }
 
             // Handle the delete button click.
-            deleteButton.Click += async (s, e) =>
+            deleteButton.Click += (s, e) =>
             {
                 if (listBox.SelectedItems.Count > 0)
                 {
@@ -603,7 +610,7 @@ namespace BG3_Autosave_Manager
                         {
                             if (File.Exists(filePath))
                             {
-                                await Task.Run(() => File.Delete(filePath)); // Asynchronous file deletion.
+                                File.Delete(filePath);
                                 listBox.Items.Remove(selectedItem);
                                 SendToLog($"Deleted file: {selectedItem}");
                             }
