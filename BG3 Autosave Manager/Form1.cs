@@ -1,8 +1,12 @@
 using System;
 using System.Configuration;
 using System.Diagnostics;
+using System.Drawing.Text;
 using System.IO.Compression;
+using System.Net;
 using System.Net.Quic;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
 
 namespace BG3_Autosave_Manager
 {
@@ -14,7 +18,7 @@ namespace BG3_Autosave_Manager
         private const string SAVE_EXT = ".zip";
         private const string COUNTDOWN_PATTERN = @"h\:mm\:ss";
 
-        private TimerPlus timerplus;
+        private TimerPlus timerplus = null!; // TimerPlus instance for managing the timer.
         private const int INTERVAL = 1000; // Timer interval in milliseconds.
         private int lineCount = 0; // Counter for the number of lines in the log text box.
 
@@ -27,6 +31,10 @@ namespace BG3_Autosave_Manager
 
         public MainForm()
         {
+            // Load the certificate from the store
+            //Boolean isValid = LoadCertificate("2f788e39e7a597c134ce4e5165a20feb32ca0e63");
+            //if (!isValid) return;
+
             // This call is required by the designer.
             InitializeComponent();
 
@@ -62,6 +70,39 @@ namespace BG3_Autosave_Manager
             QuickLimitTrackBar.ValueChanged += new EventHandler(QuickLimitTrackBar_ValueChanged);
 
             this.FormClosing += new FormClosingEventHandler(MainForm_FormClosing);
+        }
+        private static Boolean LoadCertificate(string thumbprint)
+        {
+            Boolean isValid = false;
+
+            // Define the store name and location
+            StoreName storeName = StoreName.My;
+            StoreLocation storeLocation = StoreLocation.CurrentUser;
+
+            // Open the certificate store
+            using X509Store store = new(storeName, storeLocation);
+            store.Open(OpenFlags.ReadOnly);
+
+            // Find the certificate by its thumbprint
+            X509Certificate2Collection certCollection = store.Certificates.Find(
+                X509FindType.FindByThumbprint, thumbprint, false);
+
+            if (certCollection.Count > 0)
+            {
+                X509Certificate2 certificate = certCollection[0];
+                
+                //MessageBox.Show("Certificate found: " + certificate.Subject, "Certificate Found", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                isValid = true;
+            }
+            else
+            {
+                // Handle the case where the certificate is not found
+                MessageBox.Show("Certificate not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            store.Close();
+
+            return isValid;
         }
         private static string FormatTime(int duration, string format)
         {
@@ -169,7 +210,7 @@ namespace BG3_Autosave_Manager
             string path = System.IO.Path.Combine(backupFolder, storyId);
             
             // Check if the backup folder exists and create it if it doesn't.
-            if (!System.IO.Directory.Exists(backupFolder))
+            if (!System.IO.Directory.Exists(path))
             {
                 System.IO.Directory.CreateDirectory(path);
                 SendToLog($"Backup folder created: {path}");
@@ -352,6 +393,7 @@ namespace BG3_Autosave_Manager
 
                 // Extract the contents of the zip file.
                 ZipFile.ExtractToDirectory(zipFilePath, extractFolderPath, overwriteFiles: true);
+                //SendToLog($"Extracting archive: {zipFilePath} to {extractFolderPath}");
                 SendToLog($"Successfully extracted archive.");
             }
             catch (Exception ex)
