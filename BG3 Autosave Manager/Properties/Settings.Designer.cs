@@ -38,18 +38,6 @@ namespace BG3_Autosave_Manager.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string BG3SaveFolder {
-            get {
-                return ((string)(this["BG3SaveFolder"]));
-            }
-            set {
-                this["BG3SaveFolder"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string BackupFolder {
             get {
                 return ((string)(this["BackupFolder"]));
@@ -92,6 +80,18 @@ namespace BG3_Autosave_Manager.Properties {
             }
             set {
                 this["QuickLimit"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string BG3SaveFolder {
+            get {
+                return ((string)(this["BG3SaveFolder"]));
+            }
+            set {
+                this["BG3SaveFolder"] = value;
             }
         }
     }

@@ -38,7 +38,6 @@
             label10 = new Label();
             label1 = new Label();
             label4 = new Label();
-            BG3SaveFolderTextBox = new TextBox();
             BackupFolderTextBox = new TextBox();
             folderBrowserDialog1 = new FolderBrowserDialog();
             AutosaveLoadButton = new Button();
@@ -59,6 +58,7 @@
             QuickLimitLabel = new Label();
             QuickLoadButton = new Button();
             QuickDeleteButton = new Button();
+            profilesComboBox = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)AutosaveLimitTrackBar).BeginInit();
             ((System.ComponentModel.ISupportInitialize)AutosaveIntervalTrackBar).BeginInit();
             SaveTabControl.SuspendLayout();
@@ -152,7 +152,7 @@
             // 
             label10.AutoSize = true;
             label10.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label10.Location = new Point(14, 93);
+            label10.Location = new Point(14, 96);
             label10.Margin = new Padding(2, 0, 2, 0);
             label10.Name = "label10";
             label10.Size = new Size(85, 17);
@@ -163,7 +163,7 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(14, 133);
+            label1.Location = new Point(14, 137);
             label1.Margin = new Padding(2, 0, 2, 0);
             label1.Name = "label1";
             label1.Size = new Size(94, 17);
@@ -181,22 +181,11 @@
             label4.TabIndex = 14;
             label4.Text = "BG3 Save Folder";
             // 
-            // BG3SaveFolderTextBox
-            // 
-            BG3SaveFolderTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            BG3SaveFolderTextBox.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            BG3SaveFolderTextBox.Location = new Point(14, 65);
-            BG3SaveFolderTextBox.Margin = new Padding(2);
-            BG3SaveFolderTextBox.Name = "BG3SaveFolderTextBox";
-            BG3SaveFolderTextBox.Size = new Size(578, 22);
-            BG3SaveFolderTextBox.TabIndex = 15;
-            BG3SaveFolderTextBox.Click += BG3SaveFolderTextBox_Click;
-            // 
             // BackupFolderTextBox
             // 
             BackupFolderTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             BackupFolderTextBox.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            BackupFolderTextBox.Location = new Point(14, 152);
+            BackupFolderTextBox.Location = new Point(14, 156);
             BackupFolderTextBox.Margin = new Padding(2);
             BackupFolderTextBox.Name = "BackupFolderTextBox";
             BackupFolderTextBox.Size = new Size(578, 22);
@@ -244,7 +233,7 @@
             BG3StoryIdLabel.AutoSize = true;
             BG3StoryIdLabel.Font = new Font("Segoe UI", 9.75F, FontStyle.Italic, GraphicsUnit.Point, 0);
             BG3StoryIdLabel.ForeColor = SystemColors.ControlDark;
-            BG3StoryIdLabel.Location = new Point(14, 110);
+            BG3StoryIdLabel.Location = new Point(14, 113);
             BG3StoryIdLabel.Name = "BG3StoryIdLabel";
             BG3StoryIdLabel.Size = new Size(46, 17);
             BG3StoryIdLabel.TabIndex = 22;
@@ -355,10 +344,10 @@
             QuicksaveTabPage.Controls.Add(QuickLoadButton);
             QuicksaveTabPage.Controls.Add(QuickDeleteButton);
             QuicksaveTabPage.Controls.Add(QuickSaveButton);
-            QuicksaveTabPage.Location = new Point(4, 26);
+            QuicksaveTabPage.Location = new Point(4, 24);
             QuicksaveTabPage.Name = "QuicksaveTabPage";
             QuicksaveTabPage.Padding = new Padding(3);
-            QuicksaveTabPage.Size = new Size(569, 183);
+            QuicksaveTabPage.Size = new Size(569, 185);
             QuicksaveTabPage.TabIndex = 1;
             QuicksaveTabPage.Text = "Quicksave";
             QuicksaveTabPage.UseVisualStyleBackColor = true;
@@ -422,6 +411,16 @@
             QuickDeleteButton.UseVisualStyleBackColor = true;
             QuickDeleteButton.Click += QuickDeleteButton_Click;
             // 
+            // profilesComboBox
+            // 
+            profilesComboBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            profilesComboBox.FormattingEnabled = true;
+            profilesComboBox.Location = new Point(14, 65);
+            profilesComboBox.MaxDropDownItems = 20;
+            profilesComboBox.Name = "profilesComboBox";
+            profilesComboBox.Size = new Size(578, 25);
+            profilesComboBox.TabIndex = 31;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
@@ -434,11 +433,11 @@
             Controls.Add(LogHeaderLabel);
             Controls.Add(LogTextBox);
             Controls.Add(BackupFolderTextBox);
-            Controls.Add(BG3SaveFolderTextBox);
             Controls.Add(label4);
             Controls.Add(label1);
             Controls.Add(label10);
             Controls.Add(FormHeaderLabel);
+            Controls.Add(profilesComboBox);
             Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             Name = "MainForm";
             Text = "Baulder's Gate 3: Honour Mode Save Manager";
@@ -466,7 +465,6 @@
         private Label label1;
         private Label label10;
         private Label label4;
-        private TextBox BG3SaveFolderTextBox;
         private TextBox BackupFolderTextBox;
         private FolderBrowserDialog folderBrowserDialog1;
         private Button AutosaveLoadButton;
@@ -487,5 +485,6 @@
         private Label label2;
         private TrackBar QuickLimitTrackBar;
         private Label QuickLimitLabel;
+        private ComboBox profilesComboBox;
     }
 }

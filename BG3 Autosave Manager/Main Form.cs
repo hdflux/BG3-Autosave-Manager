@@ -1,11 +1,4 @@
-using System;
-using System.Configuration;
-using System.Diagnostics;
-using System.Drawing.Text;
 using System.IO.Compression;
-using System.Net;
-using System.Net.Quic;
-using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 
 namespace BG3_Autosave_Manager
@@ -17,6 +10,8 @@ namespace BG3_Autosave_Manager
         private const string DATETIME_PATTERN = "yyyy-MM-dd_HH-mm-ss"; // Example pattern: YYYY-MM-DD_HH-MM-SS.
         private const string SAVE_EXT = ".zip";
         private const string COUNTDOWN_PATTERN = @"h\:mm\:ss";
+        private const string BG3_SAVE_FOLDER = @"Larian Studios\Baldur's Gate 3\PlayerProfiles\Public\Savegames\Story";
+        private static readonly string LOCALAPPDATA = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 
         private TimerPlus timerplus = null!; // TimerPlus instance for managing the timer.
         private const int INTERVAL = 1000; // Timer interval in milliseconds.
@@ -37,13 +32,13 @@ namespace BG3_Autosave_Manager
 
             // This call is required by the designer.
             InitializeComponent();
+            PopulatePofilesComboBox();
 
             // Initialize the timer.
             timerplus = new TimerPlus(INTERVAL, autosaveInterval * 60);
             timerplus.Tick += TimerTick;
 
             // Add any initialization after the InitializeComponent() call.
-            BG3SaveFolderTextBox.Text = bg3SaveFolder;
             BG3StoryIdLabel.Text = storyId;
             BackupFolderTextBox.Text = backupFolder;
             AutosaveIntervalTrackBar.Value = autosaveInterval;
@@ -55,7 +50,6 @@ namespace BG3_Autosave_Manager
             CountdownLabel.Text = FormatTime(timerplus.RemainingTime, COUNTDOWN_PATTERN);
 
             SendToLog($"Autosave Manager started.");
-            SendToLog($"Autosave folder: {bg3SaveFolder}");
             SendToLog($"Story ID: {storyId}");
             SendToLog($"Backup folder: {backupFolder}");
             SendToLog($"Autosave interval set to {autosaveInterval} minutes.");
@@ -69,7 +63,53 @@ namespace BG3_Autosave_Manager
             QuickLimitTrackBar.Scroll += new EventHandler(QuickLimitTrackBar_ValueChanged);
             QuickLimitTrackBar.ValueChanged += new EventHandler(QuickLimitTrackBar_ValueChanged);
 
+            profilesComboBox.SelectedValueChanged += new EventHandler(ProfilesComboBox_SelectedValueChanged);
+
             this.FormClosing += new FormClosingEventHandler(MainForm_FormClosing);
+        }
+        private void ProfilesComboBox_SelectedValueChanged(object? sender, EventArgs e)
+        {
+            string bg3StoryFolder = Path.Combine(LOCALAPPDATA, BG3_SAVE_FOLDER);
+            string profile = profilesComboBox.SelectedItem?.ToString() ?? string.Empty;
+
+            if (profile != string.Empty)
+            {
+                Properties.Settings.Default.BG3StoryId = profile;
+                storyId = profile;
+                BG3StoryIdLabel.Text = storyId;
+                SendToLog($"Story ID: {storyId}");
+
+                bg3SaveFolder = Path.Combine(bg3StoryFolder, profile);
+                Properties.Settings.Default.BG3SaveFolder = bg3SaveFolder;
+                SendToLog($"BG3 Save Folder: {bg3SaveFolder}");
+
+            }
+        }
+        private void PopulatePofilesComboBox()
+        {
+            string bg3StoryFolder = Path.Combine(LOCALAPPDATA, BG3_SAVE_FOLDER);
+
+            if (Directory.Exists(bg3StoryFolder))
+            {
+                // Get all directories in bg3StoryPath that end with "__HonourMode"
+                string[] honourModeFolders = Directory.GetDirectories(bg3StoryFolder, "*__HonourMode", SearchOption.TopDirectoryOnly);
+
+                // Log the folders or process them as needed
+                foreach (string folder in honourModeFolders)
+                {
+                    string folderName = Path.GetFileName(folder);
+                    profilesComboBox.Items.Add(Path.GetFileName(folderName));
+
+                    if (folderName == storyId)
+                    {
+                        profilesComboBox.SelectedIndex = profilesComboBox.Items.Count - 1; // Select the last item
+                    }
+                }
+            }
+            else
+            {
+                SendToLog($"Directory does not exist: {bg3StoryFolder}");
+            }
         }
         private static Boolean LoadCertificate(string thumbprint)
         {
@@ -90,7 +130,7 @@ namespace BG3_Autosave_Manager
             if (certCollection.Count > 0)
             {
                 X509Certificate2 certificate = certCollection[0];
-                
+
                 //MessageBox.Show("Certificate found: " + certificate.Subject, "Certificate Found", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 isValid = true;
             }
@@ -152,14 +192,14 @@ namespace BG3_Autosave_Manager
         private Boolean ValidateInputs()
         {
             // Validate the inputs for the save folder, story ID, and backup folder.
-            if (string.IsNullOrEmpty(BG3SaveFolderTextBox.Text))
-            {
-                MessageBox.Show("Please select a valid save folder.");
-                return false;
-            }
             if (string.IsNullOrEmpty(BackupFolderTextBox.Text))
             {
                 MessageBox.Show("Please select a valid backup folder.");
+                return false;
+            }
+            if (BG3StoryIdLabel.Text == "StoryId")
+            {
+                MessageBox.Show("Please select a valid BG3 save folder.");
                 return false;
             }
             return true;
@@ -208,7 +248,7 @@ namespace BG3_Autosave_Manager
         private void CleanBackupFolder(string prefix, int fileLimit = 0)
         {
             string path = System.IO.Path.Combine(backupFolder, storyId);
-            
+
             // Check if the backup folder exists and create it if it doesn't.
             if (!System.IO.Directory.Exists(path))
             {
@@ -287,10 +327,10 @@ namespace BG3_Autosave_Manager
 
             // Get the list of files in the directory that match the prefix and extension.
             FileInfo[] files = [.. directoryInfo.GetFiles()];
-            
+
             return files;
         }
-        private void WriteSave( string prefix )
+        private void WriteSave(string prefix)
         {
             DateTime now = DateTime.Now;
             string timestamp = now.ToString(DATETIME_PATTERN);
@@ -345,26 +385,6 @@ namespace BG3_Autosave_Manager
             }
 
             Properties.Settings.Default.Save(); // Save the settings when the form is closing.
-        }
-        private void BG3SaveFolderTextBox_Click(object sender, EventArgs e)
-        {
-            FolderBrowserDialog folderDialog = new();
-            DialogResult result = folderDialog.ShowDialog();
-
-            if (result == DialogResult.OK)
-            {
-                // Set the folder path to the text box.
-                bg3SaveFolder = folderDialog.SelectedPath;
-                BG3SaveFolderTextBox.Text = bg3SaveFolder;
-                Properties.Settings.Default.BG3SaveFolder = bg3SaveFolder;
-
-                storyId = Path.GetFileName(bg3SaveFolder);
-                BG3StoryIdLabel.Text = storyId;
-                Properties.Settings.Default.BG3StoryId = storyId;
-
-                SendToLog($"BG3 Save Folder: {bg3SaveFolder}");
-                SendToLog($"Story ID: {storyId}");
-            }
         }
         private void BackupFolderTextBox_Click(object sender, EventArgs e)
         {
