@@ -526,7 +526,7 @@ namespace BG3_Autosave_Manager
             // Get the current DateTime.
             DateTime dt = DateTime.Now;
             // Format DateTime with Message as a String.
-            string logEntry = $"[{dt:yyyy-MM-dd HH:mm:ss}] {message}";
+            string logEntry = $"[{dt:h:mm:ss tt}] {message}";
 
             // Append the log entry to the log text box.
             // Use a lock to ensure thread safety when updating the UI.
