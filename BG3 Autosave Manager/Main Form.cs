@@ -373,6 +373,8 @@ namespace BG3_Autosave_Manager
             AutosaveEnableButton.Enabled = true;
 
             timerplus.Stop();
+            timerplus.ResumePlaying = false; // Reset the flag.
+            SendToLog($"Autosave timer stopped.");
         }
         private void MainForm_FormClosing(object? sender, FormClosingEventArgs e)
         {
