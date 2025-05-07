@@ -54,6 +54,7 @@ namespace BG3_Autosave_Manager
             SendToLog($"Backup folder: {backupFolder}");
             SendToLog($"Autosave interval set to {autosaveInterval} minutes.");
             SendToLog($"Autosave limit set to {autosaveLimit} files.");
+            SendToLog($"Quicksave limit set to {quickLimit} files.");
             SendToLog($"Autosave Manager is ready.");
 
             AutosaveIntervalTrackBar.Scroll += new EventHandler(AutosaveIntervalTrackBar_Scroll);
